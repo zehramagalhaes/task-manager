@@ -1,6 +1,6 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { appRoutes } from './app.routes';
 
 /**
@@ -10,9 +10,6 @@ import { appRoutes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes),
-    provideHttpClient(
-      // Add interceptors here if needed
-      // withInterceptors([loggingInterceptor, errorHandlingInterceptor])
-    ),
+    provideHttpClient(),
   ],
 };
