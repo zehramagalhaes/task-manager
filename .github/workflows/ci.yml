@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - staging
+  pull_request:
+    branches:
+      - main
+      - staging
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Lint · Test · Build
+    runs-on: ubuntu-latest
+    # No working-directory default — all commands run from the monorepo root
+    # so that npm workspaces can hoist and resolve dependencies correctly.
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          # Root package-lock.json covers all workspaces
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run client:format:check
+
+      - name: Lint
+        run: npm run client:lint
+
+      - name: Test with coverage
+        run: npm run client:test:coverage
+
+      - name: Build (production)
+        run: npm run client:build:prod
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: client/dist/task-manager-client/browser
+          retention-days: 1

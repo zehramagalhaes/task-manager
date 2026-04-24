@@ -1,0 +1,56 @@
+name: Deploy — Staging
+
+on:
+  push:
+    branches:
+      - staging
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: true
+
+jobs:
+  deploy-staging:
+    name: Build & Deploy to Staging
+    runs-on: ubuntu-latest
+
+    environment:
+      name: staging
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run client:lint
+
+      - name: Test
+        run: npm run client:test
+
+      - name: Build (production)
+        run: npm run client:build:prod
+
+      - name: Deploy to Vercel (Staging)
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          npm install --global vercel@latest
+          DEPLOY_URL=$(vercel deploy --prebuilt \
+            --token "$VERCEL_TOKEN" \
+            --yes)
+          echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+          echo "Staging URL: $DEPLOY_URL"
