@@ -5,15 +5,18 @@
   "private": true,
   "scripts": {
     "start": "ng serve --open",
+    "start:prod": "ng serve --configuration production",
     "build": "ng build",
+    "build:dev": "ng build --configuration development",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ui": "ng test --reporter=verbose",
     "test:coverage": "ng test --coverage",
-    "lint": "eslint src --ext .ts,.tsx",
-    "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,html,css,scss,json}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,html,css,scss,json}\""
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss,json}\""
   },
   "dependencies": {
     "@angular/animations": "^21.0.0",
@@ -32,6 +35,7 @@
     "@angular-devkit/build-angular": "^21.0.0",
     "@angular/cli": "^21.0.0",
     "@angular/compiler-cli": "^21.0.0",
+    "@eslint/js": "^9.0.0",
     "@testing-library/angular": "^17.0.0",
     "@testing-library/user-event": "^14.0.0",
     "@types/node": "^20.0.0",
@@ -39,9 +43,11 @@
     "@typescript-eslint/parser": "^8.0.0",
     "@vitest/coverage-v8": "^2.0.0",
     "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.0",
-    "typescript": "~5.9.0"
+    "typescript": "~5.9.0",
+    "typescript-eslint": "^8.0.0"
   }
 }
