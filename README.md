@@ -1,111 +1,59 @@
-# Task Manager - Full-Stack Application
+# Task Manager
 
-A modern full-stack application built with Angular (client-side) and Express/Node.js (server-side), following SOLID and Clean Code principles.
+Full-stack task management app — Angular client + Express/Node.js API, TypeScript throughout.
 
-## Project Structure
+## Stack
 
-```
-task-manager/
-├── client/                 # Angular client application
-├── server/                 # Express/Node.js API server
-├── shared/                 # Shared types and utilities
-├── package.json            # Root package.json (monorepo setup)
-├── tsconfig.json           # Base TypeScript configuration (TS 6.0 ready)
-├── .eslintrc.json          # ESLint configuration
-├── .prettierrc.json        # Prettier configuration
-├── .claude.json            # Claude code configuration
-├── .gitignore              # Git ignore rules
-└── README.md               # This file
-```
+| Layer | Technology |
+|---|---|
+| Client | Angular 21, SCSS |
+| Server | Express 4, Node.js 22 |
+| Language | TypeScript 5.9 (strict) |
+| Testing | Vitest (client), Jest (server) |
+| Tooling | ESLint 9, Prettier, Husky |
 
-## Architecture Principles
-
-### SOLID Principles
-- **S**ingle Responsibility Principle: Each module has one reason to change
-- **O**pen/Closed Principle: Open for extension, closed for modification
-- **L**iskov Substitution Principle: Subtypes must be substitutable for their base types
-- **I**nterface Segregation Principle: Many client-specific interfaces over one general interface
-- **D**ependency Inversion Principle: Depend on abstractions, not concretions
-
-### Clean Code
-- Meaningful names for variables, functions, and classes
-- Small, focused functions
-- DRY (Don't Repeat Yourself)
-- Proper error handling
-- Clear separation of concerns
-- Type safety with TypeScript
-
-## Getting Started
-
-### Prerequisites
-- Node.js 18+ (with npm/yarn)
-- Angular CLI 18+
-- TypeScript 5.x (with TypeScript 6.0 compatibility configs)
-
-### Installation
+## Quick start
 
 ```bash
-# Install root dependencies
-npm install
-
-# Install client dependencies
-cd client && npm install && cd ..
-
-# Install server dependencies
-cd server && npm install && cd ..
+git clone <repo-url> && cd task-manager
+npm install        # installs all workspaces
+npm run dev        # client → :4200, server → :3000
 ```
 
-### Development
+## Commands
 
 ```bash
-# Run client (Angular dev server on http://localhost:4200)
-npm run client:dev
+# Dev
+npm run dev                  # run client + server concurrently
+npm run client:dev           # Angular dev server only
+npm run server:dev           # Express server only
 
-# Run server (Express on http://localhost:3000)
-npm run server:dev
+# Build
+npm run build                # production build (client + server)
+npm run client:build:prod    # client only
+npm run server:build         # server only
 
-# Run both concurrently
-npm run dev
+# Quality
+npm run lint                 # ESLint (client + server)
+npm run lint:fix             # auto-fix lint errors
+npm run format               # Prettier --write
+npm run format:check         # Prettier --check
+
+# Tests
+npm test                     # run all tests
+npm run client:test          # Vitest (client)
+npm run client:test:coverage # with coverage report
+npm run server:test          # Jest (server)
 ```
 
-### Build
+## Docs
 
-```bash
-# Build client
-npm run client:build
-
-# Build server
-npm run server:build
-
-# Build all
-npm run build
-```
-
-## TypeScript Configuration
-
-The project is configured to be compatible with TypeScript 6.0. All tsconfig.json files avoid deprecated flags and use recommended settings for forward compatibility.
-
-## Code Quality
-
-### ESLint
-Ensures code quality and consistency with strict rules.
-
-```bash
-npm run lint
-npm run lint:fix
-```
-
-### Prettier
-Automatic code formatting with consistent styling.
-
-```bash
-npm run format
-npm run format:check
-```
-
-## IDE Configuration
-
-The project includes `.claude.json` for optimal Claude code configuration in VS Code.
+| File | Contents |
+|---|---|
+| [QUICKSTART.md](./QUICKSTART.md) | Setup, env vars, troubleshooting |
+| [DEVELOPMENT.md](./DEVELOPMENT.md) | Workflow, tooling config, CI |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Layers, patterns, data flow |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | Commit format, PR process, standards |
 
 ## License
 
