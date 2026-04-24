@@ -1,0 +1,26 @@
+#!/bin/sh
+# Pre-commit hook — mirrors the CI pipeline so broken commits are caught locally.
+# Runs: format check -> lint -> tests -> production build.
+# Any step that fails will abort the commit (exit non-zero).
+#
+# NOTE: Uses #!/bin/sh (not #!/usr/bin/env sh) for Git Bash compatibility on
+# Windows, where env may not be in PATH during hook execution.
+
+set -e
+
+# Ensure node_modules/.bin is on PATH so locally-installed binaries are found.
+export PATH="$PWD/node_modules/.bin:$PATH"
+
+echo "[pre-commit] Checking formatting..."
+npm run client:format:check
+
+echo "[pre-commit] Linting..."
+npm run client:lint
+
+echo "[pre-commit] Running tests..."
+npm run client:test
+
+echo "[pre-commit] Building (production)..."
+npm run client:build:prod
+
+echo "[pre-commit] All checks passed - committing."

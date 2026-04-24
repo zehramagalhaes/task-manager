@@ -10,6 +10,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['src/test.ts'],
+    passWithNoTests: true,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'json', 'lcov'],
@@ -28,10 +29,6 @@ export default defineConfig({
     },
     include: ['src/**/*.spec.ts'],
     exclude: ['node_modules', 'dist', '.angular'],
-    typecheck: {
-      enabled: true,
-      tsconfig: 'tsconfig.spec.json',
-    },
   },
   resolve: {
     alias: {

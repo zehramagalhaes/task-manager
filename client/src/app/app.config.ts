@@ -8,8 +8,5 @@ import { appRoutes } from './app.routes';
  * Configures providers for routing, HTTP client, and other global services.
  */
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(appRoutes),
-    provideHttpClient(),
-  ],
+  providers: [provideRouter(appRoutes), provideHttpClient()],
 };

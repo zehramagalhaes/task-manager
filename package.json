@@ -14,30 +14,27 @@
   ],
   "scripts": {
     "dev": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
-
     "client:dev": "npm run start --workspace=client",
     "server:dev": "npm run dev --workspace=server",
-
     "build": "npm run client:build:prod && npm run server:build",
     "client:build": "npm run build --workspace=client",
     "client:build:dev": "npm run build:dev --workspace=client",
     "client:build:prod": "npm run build:prod --workspace=client",
     "server:build": "npm run build --workspace=server",
-
     "lint": "npm run client:lint && npm run server:lint",
     "client:lint": "npm run lint --workspace=client",
     "server:lint": "npm run lint --workspace=server",
     "lint:fix": "npm run client:lint:fix && npm run server:lint:fix",
     "client:lint:fix": "npm run lint:fix --workspace=client",
     "server:lint:fix": "npm run lint:fix --workspace=server",
-
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json,md}\"",
     "client:format:check": "npm run format:check --workspace=client",
     "test": "npm run client:test && npm run server:test",
     "client:test": "npm run test --workspace=client",
     "client:test:coverage": "npm run test:coverage --workspace=client",
-    "server:test": "npm run test --workspace=server"
+    "server:test": "npm run test --workspace=server",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.0.0",
@@ -46,7 +43,18 @@
     "eslint": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.0.0",
     "typescript": "~5.9.0"
+  },
+  "lint-staged": {
+    "client/src/**/*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "client/src/**/*.{html,css,scss,json}": [
+      "prettier --write"
+    ]
   }
 }
