@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { AppError } from '../middlewares/errorHandler.js';
+import { AppError } from '../../middlewares/errorHandler';
 
 /**
  * Base Controller Class

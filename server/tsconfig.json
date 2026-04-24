@@ -32,7 +32,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["node", "vitest/globals"]
+    "types": ["node"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]
