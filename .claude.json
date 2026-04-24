@@ -1,0 +1,54 @@
+{
+  "projectName": "task-manager",
+  "projectDescription": "Full-stack application with Angular client and Express/Node.js server",
+  "codeStyle": {
+    "language": "typescript",
+    "format": "prettier",
+    "linter": "eslint",
+    "indentation": 2,
+    "quotes": "single",
+    "trailingComma": "es5"
+  },
+  "architecture": {
+    "pattern": "monorepo",
+    "client": {
+      "framework": "angular",
+      "buildTool": "angular-cli",
+      "language": "typescript"
+    },
+    "server": {
+      "framework": "express",
+      "runtime": "nodejs",
+      "language": "typescript"
+    }
+  },
+  "principles": [
+    "SOLID",
+    "Clean Code",
+    "DRY",
+    "Separation of Concerns"
+  ],
+  "compatibility": {
+    "typescript": "6.0-ready",
+    "node": "18+",
+    "npm": "9+"
+  },
+  "directories": {
+    "client": "./client",
+    "server": "./server",
+    "shared": "./shared"
+  },
+  "scripts": {
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
+    "client:dev": "cd client && npm run start",
+    "server:dev": "cd server && npm run dev",
+    "build": "npm run client:build && npm run server:build",
+    "client:build": "cd client && npm run build",
+    "server:build": "cd server && npm run build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md}\""
+  }
+}

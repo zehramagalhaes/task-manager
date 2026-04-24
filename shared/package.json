@@ -1,0 +1,7 @@
+{
+  "name": "task-manager-shared",
+  "version": "1.0.0",
+  "description": "Shared types and models for task manager application",
+  "private": true,
+  "main": "index.ts"
+}
