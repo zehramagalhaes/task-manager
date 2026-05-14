@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           # Root package-lock.json covers all workspaces
           cache-dependency-path: package-lock.json
@@ -37,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Check formatting
-        run: npm run client:format:check
+        run: npm run client:format-check
 
       - name: Lint
         run: npm run client:lint
