@@ -12,7 +12,8 @@ set -e
 export PATH="$PWD/node_modules/.bin:$PATH"
 
 echo "[pre-commit] Checking formatting..."
-npm run client:format:check
+echo "[pre-commit] Formatting staged files..."
+npx lint-staged
 
 echo "[pre-commit] Linting..."
 npm run client:lint
@@ -21,6 +22,6 @@ echo "[pre-commit] Running tests..."
 npm run client:test
 
 echo "[pre-commit] Building (production)..."
-npm run client:build:prod
+npm run client:build-prod
 
 echo "[pre-commit] All checks passed - committing."

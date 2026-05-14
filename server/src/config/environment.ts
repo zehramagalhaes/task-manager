@@ -5,7 +5,10 @@
 
 interface Config {
   port: number;
+  frontendUrl: string;
   env: 'development' | 'production' | 'test';
+  nodeEnv: 'development' | 'production' | 'test';
+  sessionSecret: string;
   cors: {
     origin: string[];
     credentials: boolean;
@@ -21,6 +24,8 @@ interface Config {
 function getConfig(): Config {
   const env = (process.env.NODE_ENV || 'development') as 'development' | 'production' | 'test';
   const port = parseInt(process.env.PORT || '3000', 10);
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+  const sessionSecret = process.env.SESSION_SECRET || 'dev-session-secret-change-in-production';
 
   const corsOrigin = process.env.CORS_ORIGIN
     ? process.env.CORS_ORIGIN.split(',')
@@ -30,7 +35,10 @@ function getConfig(): Config {
 
   return {
     port,
+    frontendUrl,
     env,
+    nodeEnv: env,
+    sessionSecret,
     cors: {
       origin: corsOrigin,
       credentials: true,

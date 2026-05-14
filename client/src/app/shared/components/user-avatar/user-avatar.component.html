@@ -1,0 +1,9 @@
+<div
+  class="avatar-container"
+  [class]="size()"
+  [class.has-border]="border()"
+  [style.background-color]="!photoUrl() ? bgColor() : 'transparent'"
+>
+  <img *ngIf="photoUrl()" [src]="photoUrl()" [alt]="name()" class="avatar-img" />
+  <span *ngIf="!photoUrl()" class="avatar-initials">{{ initials() }}</span>
+</div>

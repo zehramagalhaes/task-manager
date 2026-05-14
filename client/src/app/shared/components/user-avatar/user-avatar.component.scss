@@ -1,0 +1,53 @@
+.avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  color: white;
+  font-weight: 700;
+
+  &.has-border {
+    border: 2px solid var(--glass-border);
+  }
+
+  &.sm {
+    width: 24px;
+    height: 24px;
+    font-size: 0.625rem;
+    border-radius: 6px;
+  }
+
+  &.md {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8125rem;
+    border-radius: 10px;
+  }
+
+  &.lg {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+    border-radius: 12px;
+  }
+
+  &.xl {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+    border-radius: 1.25rem;
+  }
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-initials {
+  letter-spacing: -0.02em;
+}

@@ -1,0 +1,44 @@
+<div class="task-card-container">
+  <div class="task-card glass-panel">
+    <div class="task-header">
+      <div class="header-left">
+        <span class="project-tag">{{ task.project }}</span>
+      </div>
+      <div class="header-right">
+        <span class="priority-indicator" [class]="task.priority">{{ task.priority }}</span>
+
+        <app-dropdown
+          [items]="menuItems"
+          (action)="handleMenuAction($event)"
+          (mousedown)="$event.stopPropagation()"
+          (click)="$event.stopPropagation()"
+        >
+          <div trigger class="menu-trigger-wrapper">
+            <span class="material-symbols-outlined">more_vert</span>
+          </div>
+        </app-dropdown>
+      </div>
+    </div>
+
+    <div class="task-body">
+      <h4 class="task-title">{{ task.title }}</h4>
+      <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+    </div>
+
+    <div class="task-footer">
+      <div class="task-footer-left">
+        <app-user-avatar
+          [photoUrl]="assigneePhotoUrl"
+          [name]="assigneeName"
+          size="sm"
+          [border]="false"
+        ></app-user-avatar>
+        <span class="task-date">{{ dueDate }}</span>
+      </div>
+      <div class="task-meta">
+        <span class="material-symbols-outlined">chat_bubble</span>
+        <span>{{ commentCount }}</span>
+      </div>
+    </div>
+  </div>
+</div>

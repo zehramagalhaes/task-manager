@@ -1,0 +1,9 @@
+<div class="stat-card glass-panel clickable" [class.active]="active" (click)="clicked.emit()">
+  <div class="stat-icon" [class]="type">
+    <span class="material-symbols-outlined">{{ icon }}</span>
+  </div>
+  <div class="stat-info">
+    <span class="stat-value">{{ value }}</span>
+    <span class="stat-label">{{ label }}</span>
+  </div>
+</div>

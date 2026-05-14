@@ -1,0 +1,15 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="cancel.emit()">
+  <div class="modal-content solid-panel" (click)="$event.stopPropagation()">
+    <div class="modal-icon" [class]="type">
+      <span class="material-symbols-outlined">{{ icon }}</span>
+    </div>
+
+    <h2>{{ title }}</h2>
+    <p>{{ message }}</p>
+
+    <footer class="modal-footer">
+      <button class="btn-secondary" (click)="cancel.emit()">{{ cancelText }}</button>
+      <button class="btn-confirm" [class]="type" (click)="confirm.emit()">{{ confirmText }}</button>
+    </footer>
+  </div>
+</div>

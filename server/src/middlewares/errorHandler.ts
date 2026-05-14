@@ -7,7 +7,7 @@ export class AppError extends Error {
   constructor(
     public statusCode: number,
     message: string,
-    public isOperational = true,
+    public isOperational = true
   ) {
     super(message);
     Object.setPrototypeOf(this, AppError.prototype);
@@ -22,7 +22,7 @@ export function errorHandler(
   error: Error | AppError,
   _req: Request,
   res: Response,
-  _next: NextFunction,
+  _next: NextFunction
 ): void {
   // Set default error properties
   let statusCode = 500;

@@ -1,14 +1,11 @@
 import { type Request, type Response, type NextFunction } from 'express';
+import { logger } from '../services/LoggerService.js';
 
 /**
  * Request logging middleware
  * Logs incoming requests with method, URL, and response time
  */
-export function requestLogger(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void {
+export function requestLogger(req: Request, res: Response, next: NextFunction): void {
   const startTime = Date.now();
 
   // Store original send function
@@ -19,7 +16,7 @@ export function requestLogger(
     const duration = Date.now() - startTime;
     const statusCode = res.statusCode;
 
-    console.log({
+    logger.info('Incoming request', {
       timestamp: new Date().toISOString(),
       method: req.method,
       url: req.url,

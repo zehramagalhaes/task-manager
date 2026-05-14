@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scroll-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* Only show scrollbar if content overflows */
+  box-sizing: border-box;
+}

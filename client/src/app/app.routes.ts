@@ -1,21 +1,33 @@
-import { Routes } from '@angular/router';
+import { type Routes } from '@angular/router';
+
+import { authGuard } from './core/guards/auth.guard';
 
 /**
  * Main application routes.
- * Define all top-level routes here.
  */
 export const appRoutes: Routes = [
   {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
+    path: 'login',
+    loadComponent: () => import('./features/login/login.component').then((m) => m.LoginComponent),
   },
   {
-    path: 'dashboard',
+    path: '',
+    canActivate: [authGuard],
     loadComponent: () =>
-      import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      import('./features/layout/main-layout.component').then((m) => m.MainLayoutComponent),
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+    ],
   },
-  // Feature routes would be lazy-loaded here
   {
     path: '**',
     redirectTo: 'dashboard',

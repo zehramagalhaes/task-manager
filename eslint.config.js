@@ -10,13 +10,7 @@ import path from 'node:path';
 // Absolute path to the monorepo root (where this config lives).
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 const clientDir = path.join(rootDir, 'client');
-
-// ESLint v9 resolves globs relative to process.cwd(), not the config file.
-// When invoked via `npm run lint --workspace=client` from the monorepo root,
-// cwd is <root>/, so `src/**/*.ts` would resolve to <root>/src/ — wrong.
-// Absolute globs bypass this entirely.
-const abs = (/** @type {string} */ glob) =>
-  path.join(clientDir, glob).replace(/\\/g, '/');
+const serverDir = path.join(rootDir, 'server');
 
 export default tseslint.config(
   // ── Global ignores — applied before any rule block ────────────────────────
@@ -24,42 +18,44 @@ export default tseslint.config(
   // the process.cwd() when ESLint is invoked (e.g. from monorepo root).
   {
     ignores: [
-      abs('dist/**'),
-      abs('.angular/**'),
-      abs('out-tsc/**'),
-      abs('coverage/**'),
-      abs('node_modules/**'),
-      path.join(rootDir, 'node_modules/**').replace(/\\/g, '/'),
+      'client/dist/**',
+      'client/.angular/**',
+      'client/out-tsc/**',
+      'client/coverage/**',
+      'client/node_modules/**',
+      'server/dist/**',
+      'server/coverage/**',
+      'server/node_modules/**',
+      'node_modules/**',
+      '.claude.json',
+      'client/angular.json',
+      'client/tsconfig.app.json',
+      'client/tsconfig.spec.json',
+      'client/vitest.config.ts',
+      'server/jest.config.json',
     ],
   },
 
-  // ── JS recommended rules — scoped to client source only ──────────────────
-  // Not applied globally so ESLint never touches generated/cached JS artefacts
-  // in .angular/, node_modules/, etc.
+  // ── JS recommended rules — scoped to client and server source only ──────────────────
   {
-    files: [abs('src/**/*.ts'), abs('src/**/*.js')],
+    files: ['client/src/**/*.ts', 'client/src/**/*.js', 'server/src/**/*.ts', 'server/src/**/*.js'],
     ...eslint.configs.recommended,
   },
 
-  // ── TypeScript recommended (non-type-aware) — scoped to client src ────────
+  // ── TypeScript recommended (non-type-aware) — scoped to client and server src ────────
   {
-    files: [abs('src/**/*.ts')],
+    files: ['client/src/**/*.ts', 'server/src/**/*.ts'],
     extends: [...tseslint.configs.recommended],
   },
 
   // ── Type-aware rules + parser project — scoped to client src ─────────────
-  // All rules that call getParserServices() (await-thenable, no-floating-
-  // promises, etc.) must live in a block that also sets parserOptions.project.
   {
-    files: [abs('src/**/*.ts')],
+    files: ['client/src/**/*.ts'],
 
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: clientDir,
-        project: [
-          './tsconfig.app.json',
-          './tsconfig.spec.json',
-        ],
+        project: ['./tsconfig.app.json', './tsconfig.spec.json'],
       },
     },
 
@@ -83,38 +79,45 @@ export default tseslint.config(
 
       // ── TypeScript strictness ─────────────────────────────────────────────
       '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unused-vars': ['error', {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      }],
-      '@typescript-eslint/explicit-function-return-type': ['warn', {
-        allowExpressions: true,
-        allowTypedFunctionExpressions: true,
-      }],
-      '@typescript-eslint/consistent-type-imports': ['error', {
-        prefer: 'type-imports',
-        fixStyle: 'inline-type-imports',
-      }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/explicit-function-return-type': [
+        'warn',
+        {
+          allowExpressions: true,
+          allowTypedFunctionExpressions: true,
+        },
+      ],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'inline-type-imports',
+        },
+      ],
 
       // ── Import order ──────────────────────────────────────────────────────
-      'import/order': ['error', {
-        groups: [
-          'builtin',
-          'external',
-          'internal',
-          ['parent', 'sibling', 'index'],
-        ],
-        pathGroups: [
-          {
-            pattern: '@angular/**',
-            group: 'external',
-            position: 'before',
-          },
-        ],
-        pathGroupsExcludedImportTypes: ['builtin'],
-        alphabetize: { order: 'asc', caseInsensitive: true },
-        'newlines-between': 'always',
-      }],
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
+          pathGroups: [
+            {
+              pattern: '@angular/**',
+              group: 'external',
+              position: 'before',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
+          alphabetize: { order: 'asc', caseInsensitive: true },
+          'newlines-between': 'always',
+        },
+      ],
       'import/no-duplicates': 'error',
 
       // ── General quality ───────────────────────────────────────────────────
@@ -124,9 +127,44 @@ export default tseslint.config(
     },
   },
 
+  // ── Type-aware rules + parser project — scoped to server src ─────────────
+  {
+    files: ['server/src/**/*.ts'],
+
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: serverDir,
+        project: ['./tsconfig.json'],
+      },
+    },
+
+    plugins: {
+      import: importPlugin,
+      prettier: prettierPlugin,
+    },
+
+    rules: {
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': 'error',
+      'prettier/prettier': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+      'import/no-duplicates': 'error',
+      'no-console': ['warn', { allow: ['error', 'warn'] }],
+      eqeqeq: ['error', 'always'],
+      curly: ['error', 'all'],
+    },
+  },
+
   // ── Spec files — relax rules that are noisy in tests ──────────────────────
   {
-    files: [abs('src/**/*.spec.ts')],
+    files: ['client/src/**/*.spec.ts', 'server/src/**/*.test.ts'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
@@ -134,6 +172,14 @@ export default tseslint.config(
     },
   },
 
+  // ── LoggerService — allow console for system logs ─────────────────────────
+  {
+    files: ['server/src/services/LoggerService.ts'],
+    rules: {
+      'no-console': 'off',
+    },
+  },
+
   // ── Prettier last — disables all conflicting formatting rules ─────────────
-  prettierConfig,
+  prettierConfig
 );

@@ -4,13 +4,13 @@ Full-stack task management app — Angular client + Express/Node.js API, TypeScr
 
 ## Stack
 
-| Layer | Technology |
-|---|---|
-| Client | Angular 21, SCSS |
-| Server | Express 4, Node.js 22 |
-| Language | TypeScript 5.9 (strict) |
-| Testing | Vitest (client), Jest (server) |
-| Tooling | ESLint 9, Prettier, Husky |
+| Layer    | Technology                     |
+| -------- | ------------------------------ |
+| Client   | Angular 21, SCSS               |
+| Server   | Express 4, Node.js 22          |
+| Language | TypeScript 5.9 (strict)        |
+| Testing  | Vitest (client), Jest (server) |
+| Tooling  | ESLint 9, Prettier, Husky      |
 
 ## Quick start
 
@@ -48,11 +48,11 @@ npm run server:test          # Jest (server)
 
 ## Docs
 
-| File | Contents |
-|---|---|
-| [QUICKSTART.md](./QUICKSTART.md) | Setup, env vars, troubleshooting |
-| [DEVELOPMENT.md](./DEVELOPMENT.md) | Workflow, tooling config, CI |
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | Layers, patterns, data flow |
+| File                                 | Contents                             |
+| ------------------------------------ | ------------------------------------ |
+| [QUICKSTART.md](./QUICKSTART.md)     | Setup, env vars, troubleshooting     |
+| [DEVELOPMENT.md](./DEVELOPMENT.md)   | Workflow, tooling config, CI         |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Layers, patterns, data flow          |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Commit format, PR process, standards |
 
 ## License

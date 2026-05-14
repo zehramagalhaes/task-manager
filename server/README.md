@@ -124,6 +124,7 @@ curl http://localhost:3000/health
 ```
 
 Response:
+
 ```json
 {
   "status": "OK",
@@ -140,6 +141,7 @@ curl http://localhost:3000/api/health
 ```
 
 Response:
+
 ```json
 {
   "status": "healthy",
@@ -157,6 +159,7 @@ curl http://localhost:3000/api/health/ready
 ```
 
 Response:
+
 ```json
 {
   "ready": true,
@@ -248,6 +251,7 @@ CORS_ORIGIN=http://localhost:4200,http://localhost:3000
 ## Security Headers
 
 Security headers are automatically applied via Helmet middleware:
+
 - Content Security Policy
 - X-Frame-Options
 - X-Content-Type-Options
@@ -257,6 +261,7 @@ Security headers are automatically applied via Helmet middleware:
 ## Environment-Specific Configuration
 
 The server automatically loads configuration based on `NODE_ENV`:
+
 - `development` - Detailed logging, source maps enabled
 - `production` - Optimized, minimal logging
 - `test` - Isolated, mocked dependencies

@@ -10,11 +10,7 @@ export abstract class BaseController {
   /**
    * Sends a successful response
    */
-  protected sendSuccess(
-    res: Response,
-    data: unknown,
-    statusCode = 200,
-  ): Response {
+  protected sendSuccess(res: Response, data: unknown, statusCode = 200): Response {
     return res.status(statusCode).json({
       status: 'success',
       data,
@@ -30,7 +26,7 @@ export abstract class BaseController {
     total: number,
     page: number,
     limit: number,
-    statusCode = 200,
+    statusCode = 200
   ): Response {
     return res.status(statusCode).json({
       status: 'success',
@@ -47,9 +43,7 @@ export abstract class BaseController {
   /**
    * Wraps async controller methods to handle errors
    */
-  protected catchAsync(
-    fn: (req: Request, res: Response, next: NextFunction) => Promise<void>,
-  ) {
+  protected catchAsync(fn: (req: Request, res: Response, next: NextFunction) => Promise<void>) {
     return (req: Request, res: Response, next: NextFunction): void => {
       fn(req, res, next).catch(next);
     };

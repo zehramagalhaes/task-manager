@@ -22,12 +22,7 @@
       "language": "typescript"
     }
   },
-  "principles": [
-    "SOLID",
-    "Clean Code",
-    "DRY",
-    "Separation of Concerns"
-  ],
+  "principles": ["SOLID", "Clean Code", "DRY", "Separation of Concerns"],
   "compatibility": {
     "typescript": "6.0-ready",
     "node": "18+",

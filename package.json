@@ -18,21 +18,21 @@
     "server:dev": "npm run dev --workspace=server",
     "build": "npm run client:build:prod && npm run server:build",
     "client:build": "npm run build --workspace=client",
-    "client:build:dev": "npm run build:dev --workspace=client",
-    "client:build:prod": "npm run build:prod --workspace=client",
+    "client:build-dev": "npm run build:dev --workspace=client",
+    "client:build-prod": "npm run build:prod --workspace=client",
     "server:build": "npm run build --workspace=server",
     "lint": "npm run client:lint && npm run server:lint",
-    "client:lint": "npm run lint --workspace=client",
-    "server:lint": "npm run lint --workspace=server",
-    "lint:fix": "npm run client:lint:fix && npm run server:lint:fix",
-    "client:lint:fix": "npm run lint:fix --workspace=client",
-    "server:lint:fix": "npm run lint:fix --workspace=server",
-    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,json,md}\"",
-    "client:format:check": "npm run format:check --workspace=client",
+    "client:lint": "eslint client/src",
+    "server:lint": "eslint server/src",
+    "lint:fix": "npm run client:lint-fix && npm run server:lint-fix",
+    "client:lint-fix": "eslint client/src --fix",
+    "server:lint-fix": "eslint server/src --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,scss,css,html}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,scss,css,html}\"",
+    "client:format-check": "npm run format:check --workspace=client",
     "test": "npm run client:test && npm run server:test",
     "client:test": "npm run test --workspace=client",
-    "client:test:coverage": "npm run test:coverage --workspace=client",
+    "client:test-coverage": "npm run test:coverage --workspace=client",
     "server:test": "npm run test --workspace=server",
     "prepare": "husky"
   },
@@ -49,11 +49,11 @@
     "typescript": "~5.9.0"
   },
   "lint-staged": {
-    "client/src/**/*.ts": [
+    "(client|server)/src/**/*.ts": [
       "eslint --fix",
       "prettier --write"
     ],
-    "client/src/**/*.{html,css,scss,json}": [
+    "(client|server)/src/**/*.{html,css,scss,json}": [
       "prettier --write"
     ]
   }

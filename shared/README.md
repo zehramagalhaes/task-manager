@@ -53,6 +53,7 @@ this.http.get<ApiResponse<Task[]>>('/api/tasks');
 ## TypeScript 6.0 Readiness
 
 All types follow TypeScript 6.0 compatibility guidelines:
+
 - No deprecated syntax
 - Strict type checking
 - Modern TypeScript features
@@ -81,7 +82,9 @@ const response: ApiResponse<Task> = {
 ```typescript
 const paginatedResponse: PaginatedResponse<Task> = {
   status: 'success',
-  data: [/* tasks */],
+  data: [
+    /* tasks */
+  ],
   pagination: {
     total: 100,
     page: 1,

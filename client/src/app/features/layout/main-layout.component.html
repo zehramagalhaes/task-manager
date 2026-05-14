@@ -1,0 +1,174 @@
+<div
+  class="layout-wrapper"
+  [class.sidebar-open]="isMobileSidebarOpen()"
+  [class.sidebar-minified]="isSidebarMinified()"
+>
+  <button class="mobile-toggle" (click)="toggleMobileSidebar()">
+    <span class="material-symbols-outlined">{{ isMobileSidebarOpen() ? 'close' : 'menu' }}</span>
+  </button>
+
+  <aside class="sidebar glass-panel">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <span class="material-symbols-outlined">{{ logoIcon() }}</span>
+      </div>
+      <span class="logo-text">{{ appName() }}</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="nav-text">Dashboard</span>
+        <div class="nav-tooltip">Dashboard</div>
+      </a>
+      <div class="nav-item disabled" title="Coming Soon">
+        <span class="material-symbols-outlined">calendar_month</span>
+        <span class="nav-text">Calendar</span>
+        <div class="nav-tooltip">Calendar</div>
+      </div>
+      <div class="nav-item disabled" title="Coming Soon">
+        <span class="material-symbols-outlined">group</span>
+        <span class="nav-text">Team</span>
+        <div class="nav-tooltip">Team</div>
+      </div>
+      <div class="nav-item disabled" title="Coming Soon">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="nav-text">Settings</span>
+        <div class="nav-tooltip">Settings</div>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="minify-btn desktop-only" (click)="toggleMinify()">
+        <span class="material-symbols-outlined">
+          {{ isSidebarMinified() ? 'side_navigation' : 'menu_open' }}
+        </span>
+        <span class="nav-text">Collapse Menu</span>
+      </button>
+
+      <!-- User Info Section -->
+      <div class="user-profile-wrapper" *ngIf="store.user() as user">
+        <div class="user-profile" (click)="toggleUserCard()">
+          <app-user-avatar
+            [photoUrl]="user.photos?.[0]?.value"
+            [name]="user.displayName"
+            size="md"
+          ></app-user-avatar>
+          <div class="user-info">
+            <span class="user-name">{{ user.displayName }}</span>
+            <span class="user-email">{{ user.emails?.[0]?.value }}</span>
+          </div>
+        </div>
+
+        <!-- User Info Card -->
+        <div class="user-card solid-panel" [class.show]="isUserCardOpen()">
+          <div class="user-card-header">
+            <app-user-avatar
+              [photoUrl]="user.photos?.[0]?.value"
+              [name]="user.displayName"
+              size="xl"
+            ></app-user-avatar>
+            <div class="user-card-title">
+              <h3>{{ user.displayName }}</h3>
+              <span class="badge-verified">Verified Account</span>
+            </div>
+          </div>
+
+          <div class="user-card-content">
+            <div class="info-group">
+              <label>Email Address</label>
+              <p>{{ user.emails?.[0]?.value }}</p>
+            </div>
+
+            <div class="info-row">
+              <div class="info-group">
+                <label>Role</label>
+                <p>Project Owner</p>
+              </div>
+              <div class="info-group">
+                <label>Status</label>
+                <p class="status-online">Online</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-card-actions">
+            <button (click)="openLogoutModal()" class="btn-logout-solid">
+              <span class="material-symbols-outlined">logout</span>
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button
+        (click)="openLogoutModal()"
+        class="btn-logout desktop-only"
+        *ngIf="!isSidebarMinified()"
+      >
+        <span class="material-symbols-outlined">logout</span>
+        <span class="nav-text">Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar glass-panel">
+      <div class="top-bar-left">
+        <div class="breadcrumb">
+          <span class="text-muted">Workspace</span>
+          <span class="material-symbols-outlined">chevron_right</span>
+          <span class="text-main">Tasks Board</span>
+        </div>
+      </div>
+
+      <div class="top-bar-right">
+        <button class="btn-notification-compact">
+          <span class="material-symbols-outlined">notifications</span>
+          <div class="notification-badge"></div>
+        </button>
+        <div class="divider-v"></div>
+        <button class="btn-primary-compact" (click)="modalService.openCreateTask()">
+          <span class="material-symbols-outlined">add</span>
+          <span class="desktop-only">New Task</span>
+        </button>
+      </div>
+    </header>
+
+    <app-scroll-container class="page-container" padding="0 1rem">
+      <router-outlet></router-outlet>
+    </app-scroll-container>
+
+    <footer class="main-footer">
+      <span class="text-dim">&copy; {{ currentYear }} {{ appName() }}</span>
+      <div class="footer-links">
+        <span class="text-dim"
+          >Developed by
+          <a href="https://zehramagalhaes.dev" target="_blank" class="dev-link">Zehra Magalhães</a>
+        </span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Global Confirm Logout Modal -->
+  <app-confirm-modal
+    [isOpen]="isLogoutModalOpen()"
+    title="Sign Out"
+    message="Are you sure you want to exit? Your progress is saved."
+    icon="logout"
+    (confirm)="onLogoutConfirm()"
+    (cancel)="isLogoutModalOpen.set(false)"
+  ></app-confirm-modal>
+
+  <!-- Global Task Modal managed by ModalService -->
+  <app-task-modal
+    [isOpen]="modalService.isTaskModalOpen()"
+    [task]="modalService.selectedTask()"
+    [initialStatus]="modalService.modalInitialStatus()"
+    (save)="handleTaskSave($event)"
+    (cancel)="modalService.closeTaskModal()"
+  ></app-task-modal>
+
+  <!-- Click outside listener for user card -->
+  <div class="overlay" *ngIf="isUserCardOpen()" (click)="isUserCardOpen.set(false)"></div>
+</div>
