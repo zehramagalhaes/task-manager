@@ -1,7 +1,7 @@
 import express, { type Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import session from 'express-session';
+import cookieSession from 'cookie-session';
 import passport from 'passport';
 import { config } from './config/environment.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -19,21 +19,22 @@ const app: Express = express();
 app.use(helmet());
 app.use(cors(config.cors));
 
+// Trust Vercel's Edge proxy (required for secure cookies)
+app.set('trust proxy', 1);
+
 // Body Parsing Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session Middleware (required for Passport authentication)
+// Session Middleware (stateless cookie-session for Serverless)
 app.use(
-  session({
-    secret: config.sessionSecret || 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: config.nodeEnv === 'production',
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours
-    },
+  cookieSession({
+    name: 'session',
+    keys: [config.sessionSecret || 'your-secret-key'],
+    maxAge: 1000 * 60 * 60 * 24, // 24 hours
+    secure: config.nodeEnv === 'production',
+    httpOnly: true,
+    sameSite: config.nodeEnv === 'production' ? 'none' : 'lax',
   })
 );
 
