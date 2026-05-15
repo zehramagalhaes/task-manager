@@ -18,8 +18,8 @@ jobs:
   ci:
     name: Lint · Test · Build
     runs-on: ubuntu-latest
-    # No working-directory default — all commands run from the monorepo root
-    # so that npm workspaces can hoist and resolve dependencies correctly.
+    # All commands run from the monorepo root so that npm workspaces
+    # can hoist and resolve dependencies correctly.
 
     steps:
       - name: Checkout
@@ -37,16 +37,19 @@ jobs:
         run: npm ci
 
       - name: Check formatting
-        run: npm run client:format-check
+        run: npm run format:check
 
-      - name: Lint
-        run: npm run client:lint
+      - name: Lint — client & server
+        run: npm run lint
 
-      - name: Test with coverage
-        run: npm run client:test:coverage
+      - name: Test — client (with coverage)
+        run: npm run client:test-coverage
 
-      - name: Build (production)
-        run: npm run client:build:prod
+      - name: Test — server
+        run: npm run server:test
+
+      - name: Build — production
+        run: npm run build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

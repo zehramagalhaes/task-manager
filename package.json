@@ -5,48 +5,50 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20.19.0",
-    "npm": ">=10.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=11.9.0"
   },
   "workspaces": [
     "client",
     "server"
   ],
   "scripts": {
+    "build": "npm run client:build-prod && npm run server:build",
     "dev": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
-    "client:dev": "npm run start --workspace=client",
-    "server:dev": "npm run dev --workspace=server",
-    "build": "npm run client:build:prod && npm run server:build",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,scss,css,html}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,scss,css,html}\"",
+    "lint": "npm run client:lint && npm run server:lint",
+    "lint:fix": "npm run client:lint-fix && npm run server:lint-fix",
+    "prepare": "husky",
+    "test": "npm run client:test && npm run server:test",
     "client:build": "npm run build --workspace=client",
     "client:build-dev": "npm run build:dev --workspace=client",
     "client:build-prod": "npm run build:prod --workspace=client",
-    "server:build": "npm run build --workspace=server",
-    "lint": "npm run client:lint && npm run server:lint",
-    "client:lint": "eslint client/src",
-    "server:lint": "eslint server/src",
-    "lint:fix": "npm run client:lint-fix && npm run server:lint-fix",
-    "client:lint-fix": "eslint client/src --fix",
-    "server:lint-fix": "eslint server/src --fix",
-    "format": "prettier --write \"**/*.{ts,tsx,json,md,scss,css,html}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,scss,css,html}\"",
-    "client:format-check": "npm run format:check --workspace=client",
-    "test": "npm run client:test && npm run server:test",
+    "client:dev": "npm run dev --workspace=client",
+    "client:lint": "npm run lint --workspace=client",
+    "client:lint-fix": "npm run lint:fix --workspace=client",
     "client:test": "npm run test --workspace=client",
     "client:test-coverage": "npm run test:coverage --workspace=client",
+    "server:build": "npm run build --workspace=server",
+    "server:dev": "npm run dev --workspace=server",
+    "server:lint": "npm run lint --workspace=server",
+    "server:lint-fix": "npm run lint:fix --workspace=server",
     "server:test": "npm run test --workspace=server",
-    "prepare": "husky"
+    "server:test-coverage": "npm run test:coverage --workspace=server"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "concurrently": "^8.2.0",
     "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "prettier": "^3.0.0",
-    "typescript": "~5.9.0"
+    "typescript": "~5.9.0",
+    "typescript-eslint": "^8.0.0"
   },
   "lint-staged": {
     "(client|server)/src/**/*.ts": [

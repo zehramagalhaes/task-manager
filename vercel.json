@@ -1,6 +1,6 @@
 {
   "installCommand": "npm ci",
-  "buildCommand": "npm run client:build:prod",
+  "buildCommand": "npm run client:build-prod",
   "outputDirectory": "client/dist/task-manager-client/browser",
   "framework": null,
   "rewrites": [

@@ -32,14 +32,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run client:lint
+      - name: Lint — client & server
+        run: npm run lint
 
-      - name: Test
-        run: npm run client:test
+      - name: Test — client & server
+        run: npm run test
 
-      - name: Build (production)
-        run: npm run client:build-prod
+      - name: Build — production
+        run: npm run build
 
       - name: Deploy to Vercel (Production)
         id: deploy
