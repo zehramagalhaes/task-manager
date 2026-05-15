@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import { config } from '../../config/environment.js';
+import { type AuthRequest } from '../../types/auth.js';
 
 /**
  * Authentication routes
@@ -22,8 +23,9 @@ router.get(
 
 // Get current user route
 router.get('/me', (req, res) => {
-  if (req.isAuthenticated()) {
-    return res.status(200).json(req.user);
+  const authReq = req as AuthRequest;
+  if (authReq.isAuthenticated()) {
+    return res.status(200).json(authReq.user);
   }
   return res.status(200).json(null);
 });
