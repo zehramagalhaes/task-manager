@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import keys from './keys.js';
+import { config } from './environment.js';
 
 /**
  * Configure Passport strategies and serialization
@@ -17,8 +17,8 @@ export function configurePassport() {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: keys.googleClientId,
-        clientSecret: keys.googleClientSecret,
+        clientID: config.google.clientId,
+        clientSecret: config.google.clientSecret,
         callbackURL: '/api/auth/google/callback',
         proxy: true, // Required if behind a proxy
       },

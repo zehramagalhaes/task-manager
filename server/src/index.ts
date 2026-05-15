@@ -57,8 +57,11 @@ app.use(errorHandler);
 
 const PORT = config.port;
 
-const server = app.listen(PORT, () => {
-  logger.info(`🚀 Server is running on http://localhost:${PORT}`);
-});
+let server;
+if (!process.env.VERCEL) {
+  server = app.listen(PORT, () => {
+    logger.info(`🚀 Server is running on http://localhost:${PORT}`);
+  });
+}
 
 export { app, server };

@@ -3,6 +3,8 @@
  * Centralizes all configuration based on environment variables
  */
 
+import 'dotenv/config';
+
 interface Config {
   port: number;
   frontendUrl: string;
@@ -15,6 +17,10 @@ interface Config {
   };
   logging: {
     level: string;
+  };
+  google: {
+    clientId: string;
+    clientSecret: string;
   };
 }
 
@@ -45,6 +51,10 @@ function getConfig(): Config {
     },
     logging: {
       level: loggingLevel,
+    },
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     },
   };
 }

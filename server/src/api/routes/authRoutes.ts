@@ -25,7 +25,7 @@ router.get('/me', (req, res) => {
   if (req.isAuthenticated()) {
     return res.status(200).json(req.user);
   }
-  res.status(200).json(null);
+  return res.status(200).json(null);
 });
 
 // Logout route

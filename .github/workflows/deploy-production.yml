@@ -49,7 +49,11 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           npm install --global vercel@latest
+          NEW_SESSION_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+          vercel pull --yes --environment=production --token "$VERCEL_TOKEN"
+          vercel build --prod --token "$VERCEL_TOKEN"
           DEPLOY_URL=$(vercel deploy --prebuilt --prod \
+            --env SESSION_SECRET="$NEW_SESSION_SECRET" \
             --token "$VERCEL_TOKEN" \
             --yes)
           echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"

@@ -1,9 +1,13 @@
 {
   "installCommand": "npm ci",
-  "buildCommand": "npm run client:build-prod",
+  "buildCommand": "npm run build",
   "outputDirectory": "client/dist/task-manager-client/browser",
   "framework": null,
   "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index"
+    },
     {
       "source": "/((?!assets|favicon\\.ico|.*\\..*).*)",
       "destination": "/index.html"
