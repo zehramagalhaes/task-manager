@@ -32,7 +32,7 @@ export default tseslint.config(
       'client/tsconfig.app.json',
       'client/tsconfig.spec.json',
       'client/vitest.config.ts',
-      'server/jest.config.json',
+      'server/vitest.config.ts',
     ],
   },
 

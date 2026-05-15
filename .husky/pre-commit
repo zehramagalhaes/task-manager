@@ -1,6 +1,7 @@
 #!/bin/sh
-# Pre-commit hook — mirrors the CI pipeline so broken commits are caught locally.
-# Runs: format check -> lint -> tests -> production build.
+# Pre-commit hook — fast local quality gate that mirrors the CI pipeline.
+# Runs: format + lint staged files → lint all → tests.
+# Build is intentionally omitted — it's slow and CI handles it.
 # Any step that fails will abort the commit (exit non-zero).
 #
 # NOTE: Uses #!/bin/sh (not #!/usr/bin/env sh) for Git Bash compatibility on
@@ -11,17 +12,13 @@ set -e
 # Ensure node_modules/.bin is on PATH so locally-installed binaries are found.
 export PATH="$PWD/node_modules/.bin:$PATH"
 
-echo "[pre-commit] Checking formatting..."
-echo "[pre-commit] Formatting staged files..."
+echo "[pre-commit] Formatting & linting staged files..."
 npx lint-staged
 
-echo "[pre-commit] Linting..."
-npm run client:lint
+echo "[pre-commit] Linting — client & server..."
+npm run lint
 
-echo "[pre-commit] Running tests..."
-npm run client:test
+echo "[pre-commit] Testing — client & server..."
+npm run test
 
-echo "[pre-commit] Building (production)..."
-npm run client:build-prod
-
-echo "[pre-commit] All checks passed - committing."
+echo "[pre-commit] All checks passed — committing."

@@ -51,11 +51,11 @@
     "typescript-eslint": "^8.0.0"
   },
   "lint-staged": {
-    "(client|server)/src/**/*.ts": [
+    "{client,server}/src/**/*.{ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ],
-    "(client|server)/src/**/*.{html,css,scss,json}": [
+    "**/*.{html,css,scss,json,md}": [
       "prettier --write"
     ]
   }
