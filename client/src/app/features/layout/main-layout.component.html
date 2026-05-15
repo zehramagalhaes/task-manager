@@ -50,13 +50,13 @@
       <div class="user-profile-wrapper" *ngIf="store.user() as user">
         <div class="user-profile" (click)="toggleUserCard()">
           <app-user-avatar
-            [photoUrl]="user.photos?.[0]?.value"
+            [photoUrl]="user.photo"
             [name]="user.displayName"
             size="md"
           ></app-user-avatar>
           <div class="user-info">
             <span class="user-name">{{ user.displayName }}</span>
-            <span class="user-email">{{ user.emails?.[0]?.value }}</span>
+            <span class="user-email">{{ user.email }}</span>
           </div>
         </div>
 
@@ -64,7 +64,7 @@
         <div class="user-card solid-panel" [class.show]="isUserCardOpen()">
           <div class="user-card-header">
             <app-user-avatar
-              [photoUrl]="user.photos?.[0]?.value"
+              [photoUrl]="user.photo"
               [name]="user.displayName"
               size="xl"
             ></app-user-avatar>
@@ -77,7 +77,7 @@
           <div class="user-card-content">
             <div class="info-group">
               <label>Email Address</label>
-              <p>{{ user.emails?.[0]?.value }}</p>
+              <p>{{ user.email }}</p>
             </div>
 
             <div class="info-row">

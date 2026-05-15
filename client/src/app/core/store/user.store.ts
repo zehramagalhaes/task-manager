@@ -10,8 +10,8 @@ export interface UserProfile {
     familyName?: string;
     givenName?: string;
   };
-  emails?: Array<{ value: string; verified?: boolean }>;
-  photos?: Array<{ value: string }>;
+  email?: string;
+  photo?: string;
   provider: string;
   _json?: unknown;
 }

@@ -111,7 +111,7 @@ import { TaskCardComponent } from '../../shared/components/task-card/task-card.c
               <app-task-card
                 *ngFor="let task of getTasksByStatus(col.id)"
                 [task]="task"
-                [assigneePhotoUrl]="userStore.user()?.photos?.[0]?.value"
+                [assigneePhotoUrl]="userStore.user()?.photo"
                 [assigneeName]="userStore.user()?.displayName || 'User'"
                 cdkDrag
                 [cdkDragData]="task"
