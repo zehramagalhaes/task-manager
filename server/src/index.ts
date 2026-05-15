@@ -38,6 +38,21 @@ app.use(
   })
 );
 
+// Passport 0.6.0+ requires req.session.regenerate and save, which cookie-session doesn't provide.
+app.use((req, _res, next) => {
+  if (req.session && !req.session.regenerate) {
+    req.session.regenerate = (cb: (err: Error | null) => void) => {
+      cb(null);
+    };
+  }
+  if (req.session && !req.session.save) {
+    req.session.save = (cb: (err: Error | null) => void) => {
+      cb(null);
+    };
+  }
+  next();
+});
+
 // Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
