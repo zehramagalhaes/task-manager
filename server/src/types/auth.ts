@@ -4,6 +4,7 @@ export interface SessionUser {
   id: string;
   displayName: string;
   email?: string;
+  emailVerified?: boolean;
   photo?: string;
   provider: string;
 }

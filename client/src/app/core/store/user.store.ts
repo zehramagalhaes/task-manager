@@ -11,6 +11,7 @@ export interface UserProfile {
     givenName?: string;
   };
   email?: string;
+  emailVerified?: boolean;
   photo?: string;
   provider: string;
   _json?: unknown;

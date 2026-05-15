@@ -70,7 +70,7 @@
             ></app-user-avatar>
             <div class="user-card-title">
               <h3>{{ user.displayName }}</h3>
-              <span class="badge-verified">Verified Account</span>
+              <span *ngIf="user.emailVerified" class="badge-verified">Verified Account</span>
             </div>
           </div>
 

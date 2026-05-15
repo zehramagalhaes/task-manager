@@ -7,20 +7,9 @@ import { type SessionUser } from '../types/auth.js';
  * Configure Passport strategies and serialization
  */
 export function configurePassport() {
-  // We use `Express.User` to satisfy passport's types,
-  // and safely cast to `Profile` to extract the Google fields.
+  // serializeUser simply takes the clean SessionUser object provided by the strategy and saves it
   passport.serializeUser((user: Express.User, done) => {
-    const profile = user as Profile;
-
-    // Shrink the payload to fit within the 4KB cookie limit
-    const lightweightUser: SessionUser = {
-      id: profile.id,
-      displayName: profile.displayName,
-      email: profile.emails?.[0]?.value,
-      photo: profile.photos?.[0]?.value,
-      provider: profile.provider,
-    };
-    done(null, lightweightUser);
+    done(null, user);
   });
 
   passport.deserializeUser((user: SessionUser, done) => {
@@ -37,9 +26,19 @@ export function configurePassport() {
         proxy: true, // Required if behind a proxy
       },
       (_accessToken, _refreshToken, profile: Profile, done) => {
-        // Here you would typically find or create a user in your database
-        // We pass the raw Google Profile object forward. serializeUser will shrink it.
-        return done(null, profile);
+        // Here we extract only what we need from the raw Google profile
+        // This guarantees the payload fits in our 4KB cookie limit
+        const sessionUser: SessionUser = {
+          id: profile.id,
+          displayName: profile.displayName,
+          email: profile.emails?.[0]?.value,
+          emailVerified: (profile._json as Record<string, unknown>).email_verified === true,
+          photo: profile.photos?.[0]?.value,
+          provider: profile.provider,
+        };
+
+        // We pass the clean SessionUser object forward to serializeUser
+        return done(null, sessionUser);
       }
     )
   );
